@@ -10,7 +10,7 @@ using std::cout;    using std::endl;
 using std::vector;  using std::string;
 using std::search;
 
-const vector<string> MYSTERY_VEC{"a", "about", "above", "after", "again", "against", "all", "am", "an", "and",
+vector<string> MYSTERY_VEC = {"a", "about", "above", "after", "again", "against", "all", "am", "an", "and",
                                  "any", "are", "aren't", "as", "at", "be", "because", "been", "before", "being",
                                  "below", "between", "both", "but", "by", "can't", "cannot", "could", "couldn't",
                                  "did", "didn't", "do", "does", "doesn't", "doing", "don't", "down", "during",
@@ -49,6 +49,13 @@ vector<int> createCountVec(const string& text) {
     vector<int> result;
 
     // DO STUFF HERE
+    for (const string& word: MYSTERY_VEC) {
+        word = " " + word + " ";
+        if (search(text.begin(),text.end(),word.begin(),word.end()) != text.end()){
+            result.push_back(1);
+        } else result.push_back(0);
+
+    }
 
     return result;
 
@@ -68,7 +75,7 @@ vector<int> createCountVec(const string& text) {
  ***** DO NOT EDIT BELOW HERE *****
  **********************************/
 
-const vector<int> CORRECT_CHAL2 = {1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+vector<int> CORRECT_CHAL2 = {1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
 int main() {
     auto student_vec = createCountVec("to be or not to be just be who you want to be or not okay you want okay");

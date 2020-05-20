@@ -28,6 +28,15 @@ int countOccurrences(const string& text, const string& feature) {
     int count = 0;
 
     // DO STUFF HERE
+    auto curr = text.begin();
+    auto end = text.end();
+    while (curr != end) 
+    {
+    auto found = search(text.begin(),text.end(),feature.begin(),feature.end()); 
+    if (found == end) break;
+    count++;
+    curr = found + feature.length();
+    }
 
     return count;
 }

@@ -18,7 +18,15 @@ string fileToString(ifstream& file) {
     * Where there used to be a line break, instead insert a space (" ").
     */
 
+    
     string ret = "";
+    string temp;
+    while (std::getline(file,temp)){
+        auto emToQm = [](char& ch) return c == '!'? '?':ch;   
+        std::transform(temp.begin(),temp.end(),temp.begin(),emToQm);
+        ret += (temp+" ");
+
+    }
 
     // DO STUFF HERE
 
