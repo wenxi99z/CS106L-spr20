@@ -39,24 +39,29 @@ vector<string> findWikiLadder(const string& start_page, const string& end_page) 
     //                Best of luck!
     WikiScraper scraper;
     auto target_set = scraper.getLinkSet(end_page);
-    std::copy(target_set.begin(),target_set.end(),std::ostream_iterator<string>(cout,"\n"));
-    auto cmpFn = [&target_set](const vector<string>& laddar1, const vector<string>& laddar2) {
+//    cout<<target_set.size()<<endl;
+//    std::copy(target_set.begin(),target_set.end(),std::ostream_iterator<string>(cout,"\n"));
+    auto cmpFn = [&target_set,&scraper](const vector<string>& laddar1, const vector<string>& laddar2) {
         string curWebsite1 = laddar1.back();
         string curWebsite2 = laddar2.back();
-        WikiScraper scraper;
         auto linkset1 = scraper.getLinkSet(curWebsite1);
         auto linkset2 = scraper.getLinkSet(curWebsite2);
         int count1 = 0;
         int count2 = 0;
-        for (auto itr = linkset1.begin(); itr != linkset1.end(); itr++) {
-            if (target_set.count(*itr)==1) count1++;
+        for (auto itr = target_set.begin(); itr != target_set.end(); itr++) {
+            if (linkset1.count(*itr)) count1++;
+            if (linkset2.count(*itr)) count2++;
         }
-        for (auto itr = linkset2.begin(); itr != linkset2.end(); itr++) {
-            if (target_set.count(*itr)==1) count2++;
-        }
+//        for (auto itr = linkset1.begin(); itr != linkset1.end(); itr++) {
+//            if (target_set.count(*itr)==1) count1++;
+//        }
+//        for (auto itr = linkset2.begin(); itr != linkset2.end(); itr++) {
+//            if (target_set.count(*itr)==1) count2++;
+//        }
         return count1<count2;
     };
     std::priority_queue<vector<string>, vector<vector<string>>, decltype(cmpFn)> laddarQueue(cmpFn);
+    std::unordered_set<string> visited{start_page};
     vector<string> start = {start_page};
     laddarQueue.push(start);
 
@@ -71,9 +76,10 @@ vector<string> findWikiLadder(const string& start_page, const string& end_page) 
             return partialLaddar;
         }
         for (auto itr = curSet.begin(); itr != curSet.end(); itr++) {
-            if (find(partialLaddar.begin(),partialLaddar.end(),*itr) == partialLaddar.end()) continue;
+            if (visited.count(*itr)) continue;
             vector<string> newLaddar = partialLaddar;
             newLaddar.push_back(*itr);
+            visited.insert(*itr);
             laddarQueue.push(newLaddar);
         }
 
@@ -110,8 +116,13 @@ int main() {
     getline(input, number);
     int n = std::stoi(number);//get the number of pairs
     for (int i = 0; i < n; i++) {
-        getline(input, start_page,' ');
-        getline(input, end_page);
+        string line;
+//        getline(input, start_page,' ');
+        getline(input, line);
+        stringstream linestream(line);
+        linestream>>start_page>>end_page;
+//        start_page = "Fruit";
+//        end_page = "Strawberry";
         vector<string> laddars = findWikiLadder(start_page,end_page);
         outputLadders.push_back(laddars);
     }
